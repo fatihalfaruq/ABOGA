@@ -7,7 +7,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+} from 'react-native-responsive-screen'
 import {Pindah} from '../../App';
 
 const Logreg = () => {

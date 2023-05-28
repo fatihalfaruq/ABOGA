@@ -31,6 +31,7 @@ const Admin = () => {
           }}>
           List data user:
         </Text>
+        
       </LinearGradient>
     </View>
   );

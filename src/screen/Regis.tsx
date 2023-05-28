@@ -22,18 +22,20 @@ const Regis = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [password_confirmation, setPassword_confirmation] = useState('');
   const [gender, setGender] = useState('');
   const [umur, setUmur] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
   const [alamat, setAlamat] = useState('');
+
+
 
   const reg = () => {
     if (
       username == '' &&
       email == '' &&
       password == '' &&
-      confirmPassword == ''
+      password_confirmation == ''
     ) {
       Alert.alert('Ups!', 'Anda belum memasukkan apapun', [
         {
@@ -73,7 +75,7 @@ const Regis = () => {
           text: 'ok',
         },
       ]);
-    } else if (confirmPassword !== password) {
+    } else if (password_confirmation !== password) {
       Alert.alert('Ups!', 'password Confirmation tidak sesuai', [
         {
           text: 'ok',
@@ -89,7 +91,7 @@ const Regis = () => {
       formdata.append('umur', umur);
       formdata.append('email', email);
       formdata.append('password', password);
-      formdata.append('confirmation_password', confirmPassword);
+      formdata.append('password_confirmation', password_confirmation);
 
       var requestOptions = {
         method: 'POST',
@@ -98,7 +100,7 @@ const Regis = () => {
       };
 
       fetch(
-        'https://frontendreq.pondokprogrammer.com/api/register',
+        "https://4354-2001-448a-4041-1255-10d5-3dcd-b878-3e35.ngrok-free.app/api/register",
         requestOptions,
       )
         .then(response => response.json())
@@ -146,9 +148,9 @@ const Regis = () => {
               style={styles.input}
               placeholder="Confirm Password"
               placeholderTextColor="black"
-              value={confirmPassword}
+              value={password_confirmation}
               onChangeText={(passConfirm: string) =>
-                setConfirmPassword(passConfirm)
+                setPassword_confirmation(passConfirm)
               }
             />
           </View>

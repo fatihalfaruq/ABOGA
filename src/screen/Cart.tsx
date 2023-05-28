@@ -4,7 +4,7 @@ import React from 'react';
 const Cart = () => {
   return (
     <View>
-      <Text>Cart</Text>
+      <Text style={{color:'black',fontWeight:'bold',fontSize:40}}>Cart</Text>
     </View>
   );
 };
