@@ -11,7 +11,8 @@ import {
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';import {useNavigation} from '@react-navigation/native';
+} from 'react-native-responsive-screen';
+import {useNavigation} from '@react-navigation/native';
 import {Pindah} from '../../App';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
@@ -22,10 +23,7 @@ const Login = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const reg = () => {
-    if (
-      email == '' &&
-      password == '' 
-    ) {
+    if (email == '' && password == '') {
       Alert.alert('Ups!', 'Anda belum memasukkan apapun', [
         {
           text: 'ok',
@@ -58,7 +56,7 @@ const Login = () => {
           text: 'ok',
         },
       ]);
-    } else  {
+    } else {
       setLoading(true);
       var formdata = new FormData();
       formdata.append('email', email);
@@ -71,7 +69,7 @@ const Login = () => {
       };
 
       fetch(
-        "https://6df8-2001-448a-4041-1255-c7ae-8bfc-f345-e574.ngrok-free.app/api/login",
+        'https://6df8-2001-448a-4041-1255-c7ae-8bfc-f345-e574.ngrok-free.app/api/login',
         requestOptions,
       )
         .then(response => response.json())
@@ -87,9 +85,12 @@ const Login = () => {
   return (
     <View style={styles.container}>
       <View style={styles.con1}>
-      <Image style={{width:wp('25%'),height:hp('15%')}} source={require('../assets/lo.png')}/>
-      <Text style={styles.title}>Aboga</Text>
-      <Text style={styles.loginTitle}>Login</Text>
+        <Image
+          style={{width: wp('25%'), height: hp('15%')}}
+          source={require('../assets/lo.png')}
+        />
+        <Text style={styles.title}>Aboga</Text>
+        <Text style={styles.loginTitle}>Login</Text>
       </View>
       <View style={styles.con2}>
         <View style={styles.input1}>
@@ -114,8 +115,8 @@ const Login = () => {
         <TouchableOpacity style={styles.loginButton} onPress={() => reg()}>
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
-        </View>
-        </View>
+      </View>
+    </View>
   );
 };
 
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#838383',
     alignItems: 'center',
   },
- 
+
   title: {
     color: 'black',
     fontSize: hp('7%'),
@@ -143,7 +144,8 @@ const styles = StyleSheet.create({
     width: wp('80%'),
     borderRadius: 15,
     height: hp('6%'),
-    justifyContent: 'center',marginBottom:hp('2%')
+    justifyContent: 'center',
+    marginBottom: hp('2%'),
   },
   input: {
     fontSize: hp('2.5%'),
@@ -156,13 +158,14 @@ const styles = StyleSheet.create({
     height: hp('6%'),
     borderRadius: 20,
     justifyContent: 'center',
-    alignItems: 'center',top:hp('10%')
+    alignItems: 'center',
+    top: hp('10%'),
   },
   loginButtonText: {
     fontSize: hp('3%'),
     fontWeight: 'bold',
     color: 'white',
   },
-  con1:{alignItems:'center',margin:hp('5%')},
-  con2:{alignItems:'center',}
+  con1: {alignItems: 'center', margin: hp('5%')},
+  con2: {alignItems: 'center'},
 });

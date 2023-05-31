@@ -5,6 +5,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
@@ -13,8 +14,6 @@ import {
 } from 'react-native-responsive-screen';
 import LinearGradient from 'react-native-linear-gradient';
 import {SliderBox} from 'react-native-image-slider-box';
-
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface Product {
   id: number;
@@ -86,29 +85,25 @@ const Home = () => {
         style={styles.background}
         start={{x: 0.5, y: 0}}
         end={{x: 0.5, y: 1}}>
-        <View style={styles.header}>
-          <Text style={styles.th}>ABOGA</Text>
-          <View style={{flexDirection: 'row', right: 10}}>
-            <Icon name="magnify" size={hp('5.5%')} color={'black'} />
-            <Icon name="menu" size={hp('5.5%')} color={'black'} />
-          </View>
-        </View>
-        <View style={styles.container1}>
-          <SliderBox
-            images={images}
-            onCurrentImagePressed={handleImagePress}
-            autoplay={true}
-            currentIndex={currentIndex}
-            circleLoop={true}
-            ImageComponent={Image}
-            ImageComponentStyle={styles.sliderImage}
-          />
-        </View>
         <ScrollView
           style={{
             width: wp('100%'),
             height: hp('30%'),
           }}>
+          <View style={styles.container1}>
+            <SliderBox
+              images={images}
+              onCurrentImagePressed={handleImagePress}
+              autoplay={true}
+              currentIndex={currentIndex}
+              circleLoop={true}
+              ImageComponent={Image}
+              ImageComponentStyle={styles.sliderImage}
+            />
+            <View style={styles.searchContainer}>
+              <TextInput placeholder="Cari Barang" style={styles.textInput} />
+            </View>
+          </View>
           <View style={styles.productsContainer}>
             {products.map((product, index) => (
               <View style={styles.productContainer} key={index}>
@@ -165,6 +160,19 @@ const styles = StyleSheet.create({
     width: wp('100%'),
     height: hp('30%'),
   },
+  searchContainer: {
+    position: 'absolute',
+    top: hp('1%'),
+    left: wp('15%'),
+    width: wp('70%'),
+    backgroundColor: 'white',
+    borderRadius: 20,
+  },
+  textInput: {
+    width: '100%',
+    height: '100%',
+    paddingHorizontal: wp('2%'),
+  },
   productsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -198,6 +206,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
+
     left: hp('1.2%'),
     top: hp('4.3%'),
   },

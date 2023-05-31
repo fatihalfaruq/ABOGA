@@ -17,6 +17,15 @@ import {useNavigation} from '@react-navigation/native';
 import {Pindah} from '../../App';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
+interface RegisteredData {
+  username: string;
+  email: string;
+  gender: string;
+  umur: string;
+  alamat: string;
+  password: string;
+}
+
 const Regis = () => {
   const navigation = useNavigation<NativeStackNavigationProp<Pindah>>();
   const [username, setUsername] = useState('');
@@ -28,42 +37,37 @@ const Regis = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [alamat, setAlamat] = useState('');
 
-
-
   const reg = () => {
     if (
-      username == '' &&
-      email == '' &&
-      password == '' &&
-      password_confirmation == ''
+      username === '' ||
+      email === '' ||
+      password === '' ||
+      password_confirmation === ''
     ) {
       Alert.alert('Ups!', 'Anda belum memasukkan apapun', [
         {
           text: 'ok',
         },
       ]);
-    } else if (username == '') {
+    } else if (username === '') {
       Alert.alert('Ups!', 'Name wajib diisi', [
         {
           text: 'ok',
         },
       ]);
-    } else if (email == '') {
+    } else if (email === '') {
       Alert.alert('Ups!', 'Email wajib diisi', [
         {
           text: 'ok',
         },
       ]);
-    } else if (password == '') {
+    } else if (password === '') {
       Alert.alert('Ups!', 'Password wajib diisi', [
         {
           text: 'ok',
         },
       ]);
-    } else if (
-      email.split('@')[1] !== 'gmail.com' &&
-      email.split('@')[1] !== 'email.com'
-    ) {
+    } else if (!email.endsWith('@gmail.com') && !email.endsWith('@email.com')) {
       Alert.alert('Ups!', 'Email yang anda masukkan tidak valid', [
         {
           text: 'ok',
@@ -89,7 +93,6 @@ const Regis = () => {
       formdata.append('alamat', alamat);
       formdata.append('gender', gender);
       formdata.append('umur', umur);
-      formdata.append('email', email);
       formdata.append('password', password);
       formdata.append('password_confirmation', password_confirmation);
 
@@ -100,13 +103,13 @@ const Regis = () => {
       };
 
       fetch(
-        "https://4354-2001-448a-4041-1255-10d5-3dcd-b878-3e35.ngrok-free.app/api/register",
+        'https://1a30-2001-448a-4046-2a99-9529-ab16-7a13-3d07.ngrok-free.app/api/register',
         requestOptions,
       )
         .then(response => response.json())
         .then(result => {
           console.log(result);
-          navigation.navigate('Login');
+          navigation.navigate('Admin');
         })
         .catch(error => console.log('error', error))
         .finally(() => setLoading(false));
@@ -178,7 +181,8 @@ const Regis = () => {
               onChangeText={(am: string) => setAlamat(am)}
             />
           </View>
-          <TouchableOpacity style={styles.registerButton} onPress={() => reg()}>
+
+          <TouchableOpacity style={styles.registerButton} onPress={reg}>
             <Text style={styles.registerButtonText}>Register</Text>
           </TouchableOpacity>
         </View>

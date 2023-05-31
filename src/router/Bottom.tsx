@@ -6,7 +6,6 @@ import Home from '../screen/Home';
 import Cart from '../screen/Cart';
 import Admin from '../screen/Admin';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Splash from '../screen/Splash';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,6 +36,10 @@ const Bottom = () => {
             iconName = focused ? 'cart' : 'cart';
             color = focused ? '#20C0CA' : 'black';
             size = focused ? size + 25 : size + 10;
+          } else if (route.name === 'Notif') {
+            iconName = focused ? 'bell' : 'bell';
+            color = focused ? '#20C0CA' : 'black';
+            size = focused ? size + 25 : size + 10;
           }
 
           return <Icon name={iconName} size={size} color={color} />;
@@ -47,13 +50,14 @@ const Bottom = () => {
         name="Admin"
         component={Admin}
       />
+      <Tab.Screen options={{headerShown: false}} name="Home" component={Home} />
+
+      <Tab.Screen options={{headerShown: false}} name="Cart" component={Cart} />
       <Tab.Screen
         options={{headerShown: false}}
         name="Logreg"
         component={Logreg}
       />
-      <Tab.Screen options={{headerShown: false}} name="Home" component={Home} />
-      <Tab.Screen options={{headerShown: false}} name="Cart" component={Cart} />
     </Tab.Navigator>
   );
 };
