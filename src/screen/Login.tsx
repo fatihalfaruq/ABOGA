@@ -15,6 +15,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {Pindah} from '../../App';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
   const navigation = useNavigation<NativeStackNavigationProp<Pindah>>();
@@ -23,28 +24,25 @@ const Login = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const reg = () => {
-    if (email == '' && password == '') {
+    if (email === '' || password === '') {
       Alert.alert('Ups!', 'Anda belum memasukkan apapun', [
         {
           text: 'ok',
         },
       ]);
-    } else if (email == '') {
+    } else if (email === '') {
       Alert.alert('Ups!', 'Email wajib diisi', [
         {
           text: 'ok',
         },
       ]);
-    } else if (password == '') {
+    } else if (password === '') {
       Alert.alert('Ups!', 'Password wajib diisi', [
         {
           text: 'ok',
         },
       ]);
-    } else if (
-      email.split('@')[1] !== 'gmail.com' &&
-      email.split('@')[1] !== 'email.com'
-    ) {
+    } else if (!email.endsWith('@gmail.com') && !email.endsWith('@email.com')) {
       Alert.alert('Ups!', 'Email yang anda masukkan tidak valid', [
         {
           text: 'ok',
@@ -69,13 +67,19 @@ const Login = () => {
       };
 
       fetch(
-        'https://6df8-2001-448a-4041-1255-c7ae-8bfc-f345-e574.ngrok-free.app/api/login',
+        'https://fb54-2001-448a-4041-6d4e-3e88-a02d-98cd-37ca.ngrok-free.app/api/login',
         requestOptions,
       )
         .then(response => response.json())
         .then(result => {
           console.log(result);
-          navigation.navigate('Login');
+          if (result.level == 'admin') {
+            navigation.navigate('Admin');
+            AsyncStorage.setItem('token', result.access_token);
+          } else if (result.level == 'user') {
+            navigation.navigate('Bottom');
+            AsyncStorage.setItem('token', result.access_token);
+          }
         })
         .catch(error => console.log('error', error))
         .finally(() => setLoading(false));

@@ -1,35 +1,47 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 interface RegisteredData {
+  id: string;
   username: string;
   email: string;
   gender: string;
   umur: string;
   alamat: string;
   password: string;
+  level: string;
 }
 
 const Admin = () => {
   const [registeredUsers, setRegisteredUsers] = useState<RegisteredData[]>([]);
 
   useEffect(() => {
-    fetch(
-      'https://1a30-2001-448a-4046-2a99-9529-ab16-7a13-3d07.ngrok-free.app/api/admin',
-    )
-      .then(response => response.json())
-      .then((data: RegisteredData[]) => {
-        setRegisteredUsers(data);
-      })
-      .catch(error => {
-        console.log('Error fetching registered users:', error);
-      });
-  }, []);
+    AsyncStorage.getItem('token').then(value => {
+      var myHeaders = new Headers();
+      myHeaders.append('Authorization', `Bearer ${value}`);
 
+      var requestOptions = {
+        method: 'post',
+        headers: myHeaders,
+        redirect: 'follow',
+      };
+      fetch(
+        'https://fb54-2001-448a-4041-6d4e-3e88-a02d-98cd-37ca.ngrok-free.app/api/admin',
+        requestOptions,
+      )
+        .then(response => response.json())
+        .then(result => {
+          console.log(result.user), setRegisteredUsers(result.user);
+        })
+        .catch(error => console.log('error', error));
+    });
+  }, []);
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -46,23 +58,20 @@ const Admin = () => {
           }}>
           List data user:
         </Text>
-        <View style={styles.datauser}>
-          <View style={styles.ls1}></View>
-          <View style={styles.ls2}></View>
-          <View style={styles.ls3}></View>
-          <View style={styles.ls4}></View>
-          <View style={styles.ls5}></View>
-        </View>
         <View>
-          {registeredUsers.map((user, index) => (
-            <View key={index}>
-              <Text>{user.username}</Text>
-              <Text>{user.email}</Text>
-              <Text>{user.gender}</Text>
-              <Text>{user.umur}</Text>
-              <Text>{user.alamat}</Text>
-            </View>
-          ))}
+          <ScrollView style={{backgroundColor: 'red', top: hp('2%')}}>
+            {registeredUsers.map((user, index) => (
+              <View style={styles.dc} key={index}>
+                <Text style={styles.dt}>id:{user.id}</Text>
+                <Text style={styles.dt}>username:{user.username}</Text>
+                <Text style={styles.dt}>email:{user.email}</Text>
+                <Text style={styles.dt}>level:{user.level}</Text>
+                <Text style={styles.dt}>gender:{user.gender}</Text>
+                <Text style={styles.dt}>alamat:{user.alamat}</Text>
+                <Text style={styles.dt}>umur:{user.umur}</Text>
+              </View>
+            ))}
+          </ScrollView>
         </View>
       </LinearGradient>
     </View>
@@ -93,10 +102,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     left: 10,
   },
-  ls1: {width: wp('80%'), height: hp('6%'), borderWidth: 3},
-  ls2: {width: wp('80%'), height: hp('6%'), borderWidth: 3},
-  ls3: {width: wp('80%'), height: hp('6%'), borderWidth: 3},
-  ls4: {width: wp('80%'), height: hp('6%'), borderWidth: 3},
-  ls5: {width: wp('80%'), height: hp('6%'), borderWidth: 3},
-  datauser: {top: wp('10')},
+  dc: {
+    borderWidth: 2,
+    backgroundColor: 'black',
+    width: wp('80%'),
+    height: hp('25%'),
+    justifyContent: 'center',
+    borderColor: 'red',
+  },
+  dt: {
+    fontSize: hp('2%'),
+    fontWeight: 'bold',
+    color: 'green',
+    marginLeft: hp('2%'),
+  },
 });

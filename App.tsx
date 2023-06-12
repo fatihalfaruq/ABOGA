@@ -6,9 +6,12 @@ import {NavigationContainer} from '@react-navigation/native';
 import Splash from './src/screen/Splash';
 import Login from './src/screen/Login';
 import Regis from './src/screen/Regis';
+import Admin from './src/screen/Admin';
+import Home from './src/screen/Home';
 
 const Stack = createNativeStackNavigator();
 export type Pindah = {
+  navigate(arg0: string): unknown;
   Home: undefined;
   Splash: undefined;
   Logreg: undefined;
@@ -32,7 +35,11 @@ const App = () => {
           name="Bottom"
           component={Bottom}
         />
-
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="Home"
+          component={Home}
+        />
         <Stack.Screen
           options={{headerShown: false}}
           name="Login"
@@ -42,6 +49,11 @@ const App = () => {
           options={{headerShown: false}}
           name="Regis"
           component={Regis}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="Admin"
+          component={Admin}
         />
       </Stack.Navigator>
     </NavigationContainer>

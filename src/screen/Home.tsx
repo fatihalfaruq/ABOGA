@@ -36,7 +36,7 @@ interface ProductListResponse {
 const Home = () => {
   const images = [
     require('../assets/id.jpeg'),
-    require('../assets/id1.jpeg'),
+    require('../assets/d.png'),
     require('../assets/id2.jpeg'),
   ];
 
@@ -85,25 +85,41 @@ const Home = () => {
         style={styles.background}
         start={{x: 0.5, y: 0}}
         end={{x: 0.5, y: 1}}>
+        <View style={styles.header}>
+          <View style={styles.searchContainer}>
+            <TextInput
+              placeholder="Cari Barang"
+              placeholderTextColor="gray"
+              style={styles.textInput}
+            />
+          </View>
+          <View style={styles.conimgheader}>
+            <Image
+              style={styles.iconheader}
+              source={require('../assets/cart.png')}
+            />
+          </View>
+          <View style={styles.conimgheader}>
+            <Image
+              style={styles.iconheader}
+              source={require('../assets/chat.png')}
+            />
+          </View>
+        </View>
         <ScrollView
           style={{
             width: wp('100%'),
             height: hp('30%'),
           }}>
-          <View style={styles.container1}>
-            <SliderBox
-              images={images}
-              onCurrentImagePressed={handleImagePress}
-              autoplay={true}
-              currentIndex={currentIndex}
-              circleLoop={true}
-              ImageComponent={Image}
-              ImageComponentStyle={styles.sliderImage}
-            />
-            <View style={styles.searchContainer}>
-              <TextInput placeholder="Cari Barang" style={styles.textInput} />
-            </View>
-          </View>
+          <SliderBox
+            images={images}
+            onCurrentImagePressed={handleImagePress}
+            autoplay={true}
+            currentIndex={currentIndex}
+            circleLoop={true}
+            ImageComponent={Image}
+            ImageComponentStyle={styles.sliderImage}
+          />
           <View style={styles.productsContainer}>
             {products.map((product, index) => (
               <View style={styles.productContainer} key={index}>
@@ -125,30 +141,20 @@ const Home = () => {
 export default Home;
 
 const styles = StyleSheet.create({
-  imgap: {
-    width: wp('30%'),
-    height: hp('15%'),
-    left: hp('3.8%'),
-    top: hp('1%'),
-  },
   container: {
     flex: 1,
   },
-  container1: {
-    width: wp('100%'),
-    height: hp('30%'),
-  },
+
   background: {
     flex: 1,
     alignItems: 'center',
   },
   header: {
-    width: wp('100%'),
-    height: hp('5.5%'),
-    backgroundColor: '#20C0CA',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     flexDirection: 'row',
+    position: 'absolute',
+    top: hp('2%'),
+    left: hp('1'),
+    zIndex: 1,
   },
   th: {
     fontSize: hp('3.5%'),
@@ -161,17 +167,17 @@ const styles = StyleSheet.create({
     height: hp('30%'),
   },
   searchContainer: {
-    position: 'absolute',
-    top: hp('1%'),
-    left: wp('15%'),
     width: wp('70%'),
     backgroundColor: 'white',
-    borderRadius: 20,
+    height: hp('5.5%'),
+    borderWidth: 1,
+    borderRadius: 10,
   },
   textInput: {
     width: '100%',
     height: '100%',
     paddingHorizontal: wp('2%'),
+    color: 'black',
   },
   productsContainer: {
     flexDirection: 'row',
@@ -181,15 +187,22 @@ const styles = StyleSheet.create({
   },
   productContainer: {
     width: wp('45%'),
-    height: hp('31%'),
+    height: hp('33%'),
     backgroundColor: '#20C0CA',
     margin: hp('1%'),
+    borderRadius: 20,
+    elevation: 5,
+    alignItems: 'center',
+  },
+  imgap: {
+    width: wp('38%'),
+    height: hp('15%'),
+    borderRadius: 20,
+    top: hp('1.2%'),
   },
   title: {
-    fontSize: hp('2%'),
-    fontWeight: 'bold',
+    fontSize: hp('1.7%'),
     top: hp('1.8%'),
-    left: hp('1%'),
     color: 'black',
   },
   price: {
@@ -206,13 +219,24 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-
-    left: hp('1.2%'),
     top: hp('4.3%'),
   },
   belitxt: {
     fontSize: hp('3%'),
     fontWeight: 'bold',
     color: 'white',
+  },
+  conimgheader: {
+    backgroundColor: 'blue',
+    width: wp('12%'),
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: hp('0.7%'),
+    borderRadius: 7,
+    elevation: 10,
+  },
+  iconheader: {
+    width: wp('8%'),
+    height: hp('4%'),
   },
 });

@@ -103,13 +103,13 @@ const Regis = () => {
       };
 
       fetch(
-        'https://1a30-2001-448a-4046-2a99-9529-ab16-7a13-3d07.ngrok-free.app/api/register',
+        'https://fb54-2001-448a-4041-6d4e-3e88-a02d-98cd-37ca.ngrok-free.app/api/register',
         requestOptions,
       )
         .then(response => response.json())
         .then(result => {
           console.log(result);
-          navigation.navigate('Admin');
+          navigation.navigate('Bottom');
         })
         .catch(error => console.log('error', error))
         .finally(() => setLoading(false));
