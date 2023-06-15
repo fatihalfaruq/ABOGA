@@ -25,13 +25,12 @@ const Cart = () => {
         {images.map((product, index) => (
           <View
             style={{
-              marginBottom: hp('2%'),
-              top: hp('2%'),
               backgroundColor: '#838383',
               width: wp('75%'),
               height: hp('17%'),
-              justifyContent: 'center',
               borderRadius: hp('2%'),
+              top: wp('5%'),
+              marginBottom: wp('5%'),
               elevation: 5,
             }}
             key={index}>
@@ -39,26 +38,26 @@ const Cart = () => {
               style={{
                 width: wp('40%'),
                 height: hp('15%'),
-                marginLeft: wp('2'),
-                top: hp('2.7%'),
                 borderRadius: hp('2%'),
+                marginTop: hp('1%'),
+                marginLeft: wp('2%'),
               }}
               source={product.image}
             />
             <Text
               style={{
-                marginLeft: hp('23%'),
-                bottom: hp('12%'),
+                bottom: hp('14%'),
                 color: 'black',
                 fontSize: hp('2%'),
                 fontWeight: 'bold',
+                marginLeft: wp('44%'),
               }}>
               {product.name}
             </Text>
             <Text
               style={{
-                marginLeft: hp('35%'),
-                bottom: hp('4%'),
+                marginLeft: wp('66%'),
+                bottom: hp('5%'),
                 color: '#02f740',
                 fontSize: hp('2%'),
                 fontWeight: 'bold',
@@ -74,12 +73,19 @@ const Cart = () => {
               fontSize: hp('3$'),
               color: 'black',
               fontWeight: 'bold',
-              marginLeft: wp('1%'),
+              marginLeft: wp('2%'),
+              top: wp('5%'),
             }}>
             Total:
           </Text>
           <Text
-            style={{fontSize: hp('3$'), color: 'green', fontWeight: 'bold'}}>
+            style={{
+              fontSize: hp('3$'),
+              color: 'green',
+              fontWeight: 'bold',
+              marginLeft: wp('20%'),
+              bottom: wp('2.6%'),
+            }}>
             $100
           </Text>
           <View style={styles.bottomcheckout}>
@@ -113,9 +119,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#51bbf5',
     width: wp('100%'),
     height: hp('10%'),
-    top: hp('18.7%'),
-    alignItems: 'center',
-    flexDirection: 'row',
+    marginTop: 140,
   },
   bottomcheckout: {
     backgroundColor: 'blue',
@@ -123,8 +127,9 @@ const styles = StyleSheet.create({
     height: hp('7%'),
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: wp('46%'),
     borderRadius: 15,
+    marginLeft: wp('74%'),
+    bottom: wp('12.9%'),
   },
   txtcheck: {fontSize: hp('2%'), color: 'white'},
 });

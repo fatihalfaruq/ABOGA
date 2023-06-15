@@ -67,7 +67,7 @@ const Login = () => {
       };
 
       fetch(
-        'https://fb54-2001-448a-4041-6d4e-3e88-a02d-98cd-37ca.ngrok-free.app/api/login',
+        'https://f6aa-2001-448a-404b-1e88-4a2e-91a0-1114-8b4e.ngrok-free.app/api/login',
         requestOptions,
       )
         .then(response => response.json())
@@ -89,6 +89,17 @@ const Login = () => {
   return (
     <View style={styles.container}>
       <View style={styles.con1}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            style={{
+              width: wp('8%'),
+              height: hp('4%'),
+              right: wp('45%'),
+              bottom: wp('8.5%'),
+            }}
+            source={require('../assets/quit.png')}
+          />
+        </TouchableOpacity>
         <Image
           style={{width: wp('25%'), height: hp('15%')}}
           source={require('../assets/lo.png')}
@@ -119,6 +130,16 @@ const Login = () => {
         <TouchableOpacity style={styles.loginButton} onPress={() => reg()}>
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
+      </View>
+      <View style={styles.regisnav}>
+        <Text style={{fontSize: hp('2%'), color: 'white'}}>
+          Belum punya akun?,
+        </Text>
+        <Text
+          onPress={() => navigation.navigate('Regis')}
+          style={{fontSize: hp('2%'), color: 'blue'}}>
+          klik disini
+        </Text>
       </View>
     </View>
   );
@@ -172,4 +193,5 @@ const styles = StyleSheet.create({
   },
   con1: {alignItems: 'center', margin: hp('5%')},
   con2: {alignItems: 'center'},
+  regisnav: {flexDirection: 'row', top: hp('11%')},
 });

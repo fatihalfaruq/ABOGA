@@ -1,4 +1,11 @@
-import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -6,6 +13,9 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Pindah} from '../../App';
 
 interface RegisteredData {
   id: string;
@@ -19,6 +29,7 @@ interface RegisteredData {
 }
 
 const Admin = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<Pindah>>();
   const [registeredUsers, setRegisteredUsers] = useState<RegisteredData[]>([]);
 
   useEffect(() => {
@@ -32,7 +43,7 @@ const Admin = () => {
         redirect: 'follow',
       };
       fetch(
-        'https://fb54-2001-448a-4041-6d4e-3e88-a02d-98cd-37ca.ngrok-free.app/api/admin',
+        'https://f6aa-2001-448a-404b-1e88-4a2e-91a0-1114-8b4e.ngrok-free.app/api/admin',
         requestOptions,
       )
         .then(response => response.json())
@@ -42,6 +53,29 @@ const Admin = () => {
         .catch(error => console.log('error', error));
     });
   }, []);
+  const Logout = async () => {
+    try {
+      const value = await AsyncStorage.getItem('token');
+      const requestOptions = {
+        method: 'POST',
+        headers: {Authorization: `bearer ${value}`},
+        redirect: 'follow',
+      };
+      fetch(
+        'https://40cf-2001-448a-404b-1e88-9c13-cb34-56f8-270c.ngrok-free.app/api/logout',
+        requestOptions,
+      )
+        .then(response => response.text())
+        .then(result => {
+          console.log(result);
+          AsyncStorage.removeItem('token');
+          navigation.replace('Bottom');
+        })
+        .catch(error => console.log('error', error));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -71,6 +105,30 @@ const Admin = () => {
                 <Text style={styles.dt}>umur:{user.umur}</Text>
               </View>
             ))}
+            <View
+              style={{
+                height: hp('20%'),
+                backgroundColor: 'red',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <TouchableOpacity onPress={Logout}>
+                <View
+                  style={{
+                    height: hp('6%'),
+                    width: wp('28%'),
+                    backgroundColor: 'blue',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    bottom: wp('5%'),
+                    borderRadius: 18,
+                  }}>
+                  <Text style={{fontSize: wp('5%'), color: 'white'}}>
+                    Keluar
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </ScrollView>
         </View>
       </LinearGradient>

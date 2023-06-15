@@ -8,6 +8,7 @@ import {
   Platform,
   TouchableOpacity,
   Alert,
+  Image,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -103,7 +104,7 @@ const Regis = () => {
       };
 
       fetch(
-        'https://fb54-2001-448a-4041-6d4e-3e88-a02d-98cd-37ca.ngrok-free.app/api/register',
+        'https://f6aa-2001-448a-404b-1e88-4a2e-91a0-1114-8b4e.ngrok-free.app/api/register',
         requestOptions,
       )
         .then(response => response.json())
@@ -121,6 +122,17 @@ const Regis = () => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <View style={styles.contentContainer}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image
+              style={{
+                width: wp('8%'),
+                height: hp('4%'),
+                right: wp('45%'),
+                bottom: wp('13%'),
+              }}
+              source={require('../assets/quit.png')}
+            />
+          </TouchableOpacity>
           <Text style={styles.title}>Register</Text>
           <View style={styles.inputContainer}>
             <TextInput
@@ -187,6 +199,16 @@ const Regis = () => {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
+      <View style={styles.lognav}>
+        <Text style={{fontSize: hp('2%'), color: 'white'}}>
+          Sudah punya akun?,
+        </Text>
+        <Text
+          onPress={() => navigation.navigate('Login')}
+          style={{fontSize: hp('2%'), color: 'blue'}}>
+          klik disini
+        </Text>
+      </View>
     </View>
   );
 };
@@ -202,13 +224,12 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     alignItems: 'center',
-    bottom: 50,
+    bottom: hp('5%'),
   },
   title: {
     fontSize: hp('5.5%'),
     fontWeight: 'bold',
     color: '#20C0CA',
-    marginTop: 10,
   },
   inputContainer: {
     backgroundColor: 'white',
@@ -216,7 +237,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     height: hp('6%'),
     justifyContent: 'center',
-    marginTop: 10,
+    marginTop: hp('1%'),
   },
   input: {
     fontSize: 20,
@@ -237,4 +258,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
+  lognav: {flexDirection: 'row', bottom: hp('3%')},
 });

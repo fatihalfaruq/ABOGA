@@ -16,7 +16,7 @@ import {
 } from 'react-native-responsive-screen';
 import {Pindah} from '../../App';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import ModalEditProfile from './ModalEditProfile';
 interface RegisteredData {
   id: string;
   username: string;
@@ -40,14 +40,14 @@ const Saya = () => {
         redirect: 'follow',
       };
       fetch(
-        'https://fb54-2001-448a-4041-6d4e-3e88-a02d-98cd-37ca.ngrok-free.app/api/logout',
+        'https://40cf-2001-448a-404b-1e88-9c13-cb34-56f8-270c.ngrok-free.app/api/logout',
         requestOptions,
       )
         .then(response => response.text())
         .then(result => {
           console.log(result);
           AsyncStorage.removeItem('token');
-          navigation.replace('Login');
+          navigation.replace('Bottom');
         })
         .catch(error => console.log('error', error));
     } catch (error) {
@@ -65,7 +65,7 @@ const Saya = () => {
         redirect: 'follow',
       };
       fetch(
-        'https://fb54-2001-448a-4041-6d4e-3e88-a02d-98cd-37ca.ngrok-free.app/api/profile',
+        'https://f6aa-2001-448a-404b-1e88-4a2e-91a0-1114-8b4e.ngrok-free.app/api/profile',
         requestOptions,
       )
         .then(response => response.json())
@@ -75,18 +75,94 @@ const Saya = () => {
         .catch(error => console.log('error', error));
     });
   }, []);
+  const [modal, setModal] = useState(false);
   const drawerRef = useRef<DrawerLayoutAndroid>(null);
   const navigationView = (
-    <View>
-      <TouchableOpacity onPress={() => navigation.navigate('Regis')}>
-        <Text style={{color: 'red', fontSize: hp('3%')}}>register</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={{color: 'red', fontSize: hp('3%')}}>login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={Logout}>
-        <Text style={{color: 'red', fontSize: hp('3%')}}>logout</Text>
-      </TouchableOpacity>
+    <View style={{backgroundColor: '#20C0CA', flex: 1}}>
+      {registeredUsers.map((profile, index) => (
+        <View key={index}>
+          <View
+            style={{
+              backgroundColor: 'blue',
+              width: wp('50%'),
+              height: hp('4%'),
+              top: wp('3%'),
+              marginBottom: wp('3%'),
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 10,
+              left: wp('9.5%'),
+            }}>
+            <Text
+              style={{
+                fontSize: wp('4.5%'),
+                color: 'white',
+                fontWeight: 'bold',
+              }}>
+              Data anda
+            </Text>
+          </View>
+          <Text style={styles.datauser}>name:{profile.username}</Text>
+          <Text style={styles.datauser}>gender:{profile.gender}</Text>
+          <Text style={styles.datauser}>umur:{profile.umur}</Text>
+          <Text style={styles.datauser}>alamat:{profile.alamat}</Text>
+          <Text style={styles.datauser}>email:{profile.email}</Text>
+        </View>
+      ))}
+      <View
+        style={{
+          backgroundColor: 'black',
+          width: wp('100%'),
+          height: hp('1%'),
+          top: wp('6%'),
+        }}></View>
+      <View style={{top: wp('8%'), left: wp('3')}}>
+        <TouchableOpacity onPress={() => navigation.navigate('Regis')}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: hp('3%'),
+              fontWeight: 'bold',
+              marginBottom: wp('7%'),
+            }}>
+            register
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: hp('3%'),
+              fontWeight: 'bold',
+              marginBottom: wp('7%'),
+            }}>
+            login
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={Logout}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: hp('3%'),
+              fontWeight: 'bold',
+              marginBottom: wp('7%'),
+            }}>
+            logout
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setModal(true)}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: hp('3%'),
+              fontWeight: 'bold',
+              marginBottom: wp('7%'),
+            }}>
+            Edit data
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <ModalEditProfile visible={modal} />
     </View>
   );
   const toggleDrawer = () => {
@@ -119,18 +195,33 @@ const Saya = () => {
                 source={require('../assets/lo.png')}
                 style={styles.imgprofil}
               />
+              <TouchableOpacity onPress={toggleDrawer}>
+                <Image
+                  style={styles.ic1}
+                  source={require('../assets/ham.png')}
+                />
+              </TouchableOpacity>
               {registeredUsers.map((profile, index) => (
                 <View key={index}>
                   <Text
-                    style={{fontSize: wp('5%'), color: 'black', top: wp('4%')}}>
+                    style={{
+                      fontSize: wp('6%'),
+                      color: 'black',
+                      bottom: hp('2.8%'),
+                      left: wp('11%'),
+                    }}>
                     {profile.username}
+                  </Text>
+                  <Text
+                    style={{
+                      color: 'black',
+                      bottom: hp('2%'),
+                    }}>
+                    email:{profile.email}
                   </Text>
                 </View>
               ))}
             </View>
-            <TouchableOpacity onPress={toggleDrawer}>
-              <Image style={styles.ic1} source={require('../assets/ham.png')} />
-            </TouchableOpacity>
           </View>
           <View
             style={{
@@ -324,10 +415,10 @@ const Saya = () => {
               }}>
               <Image
                 style={{width: wp('10%'), height: hp('5%')}}
-                source={require('../assets/wallet.png')}
+                source={require('../assets/cash.png')}
               />
               <Text style={{fontSize: wp('3.5%'), color: 'black'}}>
-                Belum bayar
+                Aboga pay
               </Text>
             </View>
             <View
@@ -338,33 +429,20 @@ const Saya = () => {
               }}>
               <Image
                 style={{width: wp('10%'), height: hp('5%')}}
-                source={require('../assets/box.png')}
+                source={require('../assets/coin.png')}
               />
               <Text style={{fontSize: wp('3.5%'), color: 'black'}}>
-                Dikemas
+                Aboga koin
               </Text>
             </View>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginRight: wp('10%'),
-              }}>
-              <Image
-                style={{width: wp('10%'), height: hp('5%')}}
-                source={require('../assets/carbox.png')}
-              />
-              <Text style={{fontSize: wp('3.5%'), color: 'black'}}>
-                Di kirim
-              </Text>
-            </View>
+
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
               <Image
                 style={{width: wp('10%'), height: hp('5%')}}
-                source={require('../assets/feedback.png')}
+                source={require('../assets/voucher.png')}
               />
               <Text style={{fontSize: wp('3.5%'), color: 'black'}}>
-                Beri Penilaian
+                Voucer saya
               </Text>
             </View>
           </View>
@@ -403,7 +481,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#838383',
     width: wp('100%'),
     height: hp('28%'),
-    alignItems: 'center',
   },
   imgprofil: {
     width: wp('30%'),
@@ -414,13 +491,20 @@ const styles = StyleSheet.create({
   ic1: {
     width: wp('10%'),
     height: hp('5%'),
-    position: 'absolute',
-    bottom: hp('9%'),
-    right: wp('38%'),
+    right: wp('43%'),
+    bottom: wp('30%'),
   },
   shiping: {
     width: wp('8%'),
     height: hp('4%'),
     marginRight: wp('2%'),
+  },
+  datauser: {
+    fontSize: wp('5%'),
+    color: 'black',
+    top: wp('3%'),
+    marginBottom: wp('3%'),
+    left: wp('3'),
+    fontWeight: 'bold',
   },
 });
