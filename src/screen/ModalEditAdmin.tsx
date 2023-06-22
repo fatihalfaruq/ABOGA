@@ -22,9 +22,10 @@ import {Pindah} from '../../App';
 interface Props {
   visible: boolean;
 }
-const ModalEditProfile: React.FC<Props> = ({visible}) => {
+const ModalEditAdmin: React.FC<Props> = ({visible}) => {
   const navigation = useNavigation<NativeStackNavigationProp<Pindah>>();
 
+  const [userId, setUserId] = useState(''); // Tambahkan state untuk ID pengguna
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userGender, setUserGender] = useState('');
@@ -32,6 +33,9 @@ const ModalEditProfile: React.FC<Props> = ({visible}) => {
   const [userAlamat, setUserAlamat] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [userPasswordconfirmation, setUserPasswordconfirmation] = useState('');
+  const handleUserId = (id: string) => {
+    setUserId(id);
+  };
   const handleUserName = (nm: string) => {
     setUserName(nm);
   };
@@ -76,7 +80,7 @@ const ModalEditProfile: React.FC<Props> = ({visible}) => {
       };
 
       fetch(
-        'https://135f-2001-448a-4040-aea4-6f68-143f-d365-e06a.ngrok-free.app/api/edit',
+        `https://135f-2001-448a-4040-aea4-6f68-143f-d365-e06a.ngrok-free.app/api/update/${userId}`, // Gunakan template literal untuk menyusun URL dengan ID pengguna
         requestOptions,
       )
         .then(response => response.json())
@@ -113,7 +117,7 @@ const ModalEditProfile: React.FC<Props> = ({visible}) => {
                 };
 
                 fetch(
-                  'https://135f-2001-448a-4040-aea4-6f68-143f-d365-e06a.ngrok-free.app/api/destroy',
+                  `https://135f-2001-448a-4040-aea4-6f68-143f-d365-e06a.ngrok-free.app/api/delete/${userId}`,
                   requestOptions,
                 )
                   .then(response => {
@@ -148,13 +152,12 @@ const ModalEditProfile: React.FC<Props> = ({visible}) => {
           start={{x: 0.5, y: 0}}
           style={styles.background}
           end={{x: 0.5, y: 1}}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigation.replace('Admin')}>
             <Image
               style={{
                 width: wp('8%'),
                 height: hp('4%'),
                 right: wp('45%'),
-                top: wp('2%'),
               }}
               source={require('../assets/quit.png')}
             />
@@ -164,10 +167,17 @@ const ModalEditProfile: React.FC<Props> = ({visible}) => {
               fontSize: wp('6.5%'),
               fontWeight: 'bold',
               color: 'black',
-              top: wp('4%'),
             }}>
-            Edit profile
+            Edit profile user
           </Text>
+          <View style={styles.searchContainer}>
+            <TextInput
+              placeholder="User ID"
+              placeholderTextColor="gray"
+              style={styles.textInput}
+              onChangeText={handleUserId}
+            />
+          </View>
           <View style={styles.searchContainer}>
             <TextInput
               placeholder="Username"
@@ -224,40 +234,23 @@ const ModalEditProfile: React.FC<Props> = ({visible}) => {
               onChangeText={handleUserPasswordconfirmation}
             />
           </View>
-          <TouchableOpacity style={{top: wp('12%')}} onPress={update}>
-            <View
-              style={{
-                backgroundColor: 'blue',
-                width: wp('60%'),
-                height: hp('5'),
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 20,
-              }}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: wp('5'),
-                  fontWeight: 'bold',
-                }}>
-                Update
-              </Text>
-            </View>
+          <TouchableOpacity style={{top: wp('5%')}} onPress={update}>
+            <LinearGradient
+              colors={['#00d2ff', '#3a7bd5']}
+              start={{x: 0, y: 0.5}}
+              end={{x: 1, y: 0.5}}
+              style={styles.button}>
+              <Text style={styles.text}>Update</Text>
+            </LinearGradient>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{
-              top: wp('15%'),
-            }}
-            onPress={Delete}>
-            <Text
-              style={{
-                fontSize: wp('5%'),
-                fontWeight: 'bold',
-                color: 'red',
-              }}>
-              Hapus akun
-            </Text>
+          <TouchableOpacity style={{top: wp('5%')}} onPress={Delete}>
+            <LinearGradient
+              colors={['#FF416C', '#FF4B2B']}
+              start={{x: 0, y: 0.5}}
+              end={{x: 1, y: 0.5}}
+              style={styles.button}>
+              <Text style={styles.text}>Delete</Text>
+            </LinearGradient>
           </TouchableOpacity>
         </LinearGradient>
       </View>
@@ -265,24 +258,46 @@ const ModalEditProfile: React.FC<Props> = ({visible}) => {
   );
 };
 
-export default ModalEditProfile;
+export default ModalEditAdmin;
 
 const styles = StyleSheet.create({
-  container: {flex: 1},
-  background: {flex: 1, alignItems: 'center'},
+  container: {
+    flex: 1,
+  },
+  background: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   searchContainer: {
-    width: wp('70%'),
-    backgroundColor: 'white',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: wp('0.2%'),
+    borderRadius: wp('1.5%'),
     height: hp('5.5%'),
-    borderWidth: 1,
-    borderRadius: 10,
-    marginBottom: wp('5%'),
-    top: wp('10%'),
+    width: wp('80%'),
+    marginTop: hp('2%'),
+    paddingLeft: wp('2%'),
+    backgroundColor: 'white',
+    top: wp('5%'),
   },
   textInput: {
-    width: '100%',
-    height: '100%',
-    paddingHorizontal: wp('2%'),
+    marginLeft: wp('2%'),
+    fontSize: wp('3.8%'),
     color: 'black',
+    width: wp('70%'),
+  },
+  button: {
+    width: wp('75%'),
+    height: hp('6.5%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: wp('4%'),
+    marginTop: hp('2.5%'),
+  },
+  text: {
+    fontSize: wp('4.5%'),
+    fontWeight: 'bold',
+    color: 'white',
   },
 });

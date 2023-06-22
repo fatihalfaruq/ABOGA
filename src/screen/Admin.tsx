@@ -5,6 +5,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
@@ -16,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Pindah} from '../../App';
+import ModalEditAdmin from './ModalEditAdmin';
 
 interface RegisteredData {
   id: string;
@@ -31,6 +33,7 @@ interface RegisteredData {
 const Admin = () => {
   const navigation = useNavigation<NativeStackNavigationProp<Pindah>>();
   const [registeredUsers, setRegisteredUsers] = useState<RegisteredData[]>([]);
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     AsyncStorage.getItem('token').then(value => {
@@ -43,7 +46,7 @@ const Admin = () => {
         redirect: 'follow',
       };
       fetch(
-        'https://f6aa-2001-448a-404b-1e88-4a2e-91a0-1114-8b4e.ngrok-free.app/api/admin',
+        'https://135f-2001-448a-4040-aea4-6f68-143f-d365-e06a.ngrok-free.app/api/admin',
         requestOptions,
       )
         .then(response => response.json())
@@ -62,7 +65,7 @@ const Admin = () => {
         redirect: 'follow',
       };
       fetch(
-        'https://40cf-2001-448a-404b-1e88-9c13-cb34-56f8-270c.ngrok-free.app/api/logout',
+        'https://135f-2001-448a-4040-aea4-6f68-143f-d365-e06a.ngrok-free.app/logout',
         requestOptions,
       )
         .then(response => response.text())
@@ -94,6 +97,13 @@ const Admin = () => {
         </Text>
         <View>
           <ScrollView style={{backgroundColor: 'red', top: hp('2%')}}>
+            <View style={styles.searchContainer}>
+              <TextInput
+                placeholder="Username"
+                placeholderTextColor="gray"
+                style={styles.textInput}
+              />
+            </View>
             {registeredUsers.map((user, index) => (
               <View style={styles.dc} key={index}>
                 <Text style={styles.dt}>id:{user.id}</Text>
@@ -103,6 +113,18 @@ const Admin = () => {
                 <Text style={styles.dt}>gender:{user.gender}</Text>
                 <Text style={styles.dt}>alamat:{user.alamat}</Text>
                 <Text style={styles.dt}>umur:{user.umur}</Text>
+                <TouchableOpacity
+                  style={{
+                    width: wp('20%'),
+                    height: hp('3.5%'),
+                    left: wp('57%'),
+                    bottom: wp('2%'),
+                  }}
+                  onPress={() => setModal(true)}>
+                  <View style={styles.bottomupdate}>
+                    <Text style={{color: 'white'}}>update</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
             ))}
             <View
@@ -127,6 +149,7 @@ const Admin = () => {
                     Keluar
                   </Text>
                 </View>
+                <ModalEditAdmin visible={modal} />
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -173,5 +196,28 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'green',
     marginLeft: hp('2%'),
+    top: wp('3%'),
+  },
+  searchContainer: {
+    width: wp('70%'),
+    backgroundColor: 'white',
+    height: hp('5.5%'),
+    borderWidth: 1,
+    borderRadius: 10,
+    left: wp('5%'),
+  },
+  textInput: {
+    width: '100%',
+    height: '100%',
+    paddingHorizontal: wp('2%'),
+    color: 'black',
+  },
+  bottomupdate: {
+    backgroundColor: 'blue',
+    width: wp('20%'),
+    height: hp('3.5%'),
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

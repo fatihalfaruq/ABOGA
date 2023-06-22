@@ -31,6 +31,8 @@ const Saya = () => {
   const navigation = useNavigation<NativeStackNavigationProp<Pindah>>();
   const [registeredUsers, setRegisteredUsers] = useState<RegisteredData[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [modal, setModal] = useState(false);
+  const drawerRef = useRef<DrawerLayoutAndroid>(null);
   const Logout = async () => {
     try {
       const value = await AsyncStorage.getItem('token');
@@ -40,7 +42,7 @@ const Saya = () => {
         redirect: 'follow',
       };
       fetch(
-        'https://40cf-2001-448a-404b-1e88-9c13-cb34-56f8-270c.ngrok-free.app/api/logout',
+        'https://135f-2001-448a-4040-aea4-6f68-143f-d365-e06a.ngrok-free.app/logout',
         requestOptions,
       )
         .then(response => response.text())
@@ -65,7 +67,7 @@ const Saya = () => {
         redirect: 'follow',
       };
       fetch(
-        'https://f6aa-2001-448a-404b-1e88-4a2e-91a0-1114-8b4e.ngrok-free.app/api/profile',
+        'https://135f-2001-448a-4040-aea4-6f68-143f-d365-e06a.ngrok-free.app/api/profile',
         requestOptions,
       )
         .then(response => response.json())
@@ -75,8 +77,7 @@ const Saya = () => {
         .catch(error => console.log('error', error));
     });
   }, []);
-  const [modal, setModal] = useState(false);
-  const drawerRef = useRef<DrawerLayoutAndroid>(null);
+
   const navigationView = (
     <View style={{backgroundColor: '#20C0CA', flex: 1}}>
       {registeredUsers.map((profile, index) => (
@@ -202,13 +203,14 @@ const Saya = () => {
                 />
               </TouchableOpacity>
               {registeredUsers.map((profile, index) => (
-                <View key={index}>
+                <View
+                  style={{justifyContent: 'center', alignItems: 'center'}}
+                  key={index}>
                   <Text
                     style={{
                       fontSize: wp('6%'),
                       color: 'black',
                       bottom: hp('2.8%'),
-                      left: wp('11%'),
                     }}>
                     {profile.username}
                   </Text>

@@ -23,7 +23,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  const reg = () => {
+  const log = () => {
     if (email === '' || password === '') {
       Alert.alert('Ups!', 'Anda belum memasukkan apapun', [
         {
@@ -67,7 +67,7 @@ const Login = () => {
       };
 
       fetch(
-        'https://f6aa-2001-448a-404b-1e88-4a2e-91a0-1114-8b4e.ngrok-free.app/api/login',
+        'https://135f-2001-448a-4040-aea4-6f68-143f-d365-e06a.ngrok-free.app/api/login',
         requestOptions,
       )
         .then(response => response.json())
@@ -127,7 +127,7 @@ const Login = () => {
             onChangeText={(pw: string) => setPassword(pw)}
           />
         </View>
-        <TouchableOpacity style={styles.loginButton} onPress={() => reg()}>
+        <TouchableOpacity style={styles.loginButton} onPress={() => log()}>
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
       </View>
